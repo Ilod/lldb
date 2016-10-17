@@ -88,6 +88,7 @@ bool PseudoTerminal::OpenFirstAvailableMaster(int oflag, char *error_str,
   if (error_str)
     error_str[0] = '\0';
 
+#if !defined(LLDB_DISABLE_POSIX)
   // Open the master side of a pseudo terminal
   m_master_fd = ::posix_openpt(oflag);
   if (m_master_fd < 0) {
@@ -111,6 +112,7 @@ bool PseudoTerminal::OpenFirstAvailableMaster(int oflag, char *error_str,
     CloseMasterFileDescriptor();
     return false;
   }
+#endif
 
   return true;
 }
